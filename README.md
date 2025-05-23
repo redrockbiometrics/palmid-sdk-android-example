@@ -1,0 +1,37 @@
+# PalmID SDK Android Example
+
+This is a simple example of how to use the PalmID SDK.
+
+## Configuration
+
+1. add the following permissions to your `AndroidManifest.xml` file:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.CAMERA" />
+```
+
+2. add the following to your `settings.gradle` file:
+
+```gradle
+maven {
+    url = uri("https://storage.googleapis.com/download.flutter.io")
+}
+maven {
+    url = uri("https://raw.githubusercontent.com/rrbpalm/palmid-sdk-android-repo/master")
+}
+```
+
+3. add the following to your `build.gradle` file:
+
+```gradle
+implementation 'com.palmid:native_sdk:latest.version'
+```
+
+4. add the following to your `MainActivity` file:
+
+```kotlin
+PalmIDNativeSDK.getInstance().initialize(this, entrypoint, partnerId, projectId) { result ->
+    Log.d(TAG, "palmid sdk init result: $result")
+}
+```

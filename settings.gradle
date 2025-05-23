@@ -1,0 +1,32 @@
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // ----------------------- palmid sdk start -----------------------
+        maven {
+            url = uri("https://storage.googleapis.com/download.flutter.io")
+        }
+//        maven {
+//            url = uri("https://raw.githubusercontent.com/simman/test_repo/master")
+//        }
+        maven { url new File("/Users/simman/Desktop/ShuShu/redrock/palmid-sdk-native/apps/embed_app/build/host/outputs/repo") }
+        // ----------------------- palmid sdk end -----------------------
+    }
+}
+
+rootProject.name = "PalmIDSDKExample"
+include ':app'
