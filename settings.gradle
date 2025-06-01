@@ -20,10 +20,9 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://storage.googleapis.com/download.flutter.io")
         }
-//        maven {
-//            url = uri("https://raw.githubusercontent.com/simman/test_repo/master")
-//        }
-        maven { url new File("/Users/simman/Desktop/ShuShu/redrock/palmid-sdk-native/apps/embed_app/build/host/outputs/repo") }
+       maven {
+           url = uri("https://raw.githubusercontent.com/redrockbiometrics/palmid-sdk-android-repo/master")
+       }
         // ----------------------- palmid sdk end -----------------------
     }
 }

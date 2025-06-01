@@ -18,7 +18,7 @@ maven {
     url = uri("https://storage.googleapis.com/download.flutter.io")
 }
 maven {
-    url = uri("https://raw.githubusercontent.com/rrbpalm/palmid-sdk-android-repo/master")
+    url = uri("https://raw.githubusercontent.com/redrockbiometrics/palmid-sdk-android-repo/master")
 }
 ```
 
@@ -35,3 +35,19 @@ PalmIDNativeSDK.getInstance().initialize(this, entrypoint, partnerId, projectId)
     Log.d(TAG, "palmid sdk init result: $result")
 }
 ```
+
+## Result Error Codes
+
+| Description | Error Code |
+|------------|-------------|
+| SuccessException          | 100000  |
+| UserCancelledException    | -1      |
+| AuthenticationException   | 100001  |
+| UserNotFoundException     | 100002  |
+| NoMatchUserException      | 100003  |
+| UserAlreadyExistsException| 100004  |
+| EnrollException           | 100005  |
+| IdentifyException         | 100006  |
+| VerifyException           | 100007  |
+| DeleteUserException       | 100008  |
+| OtherException            | 999999  |
