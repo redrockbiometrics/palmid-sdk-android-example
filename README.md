@@ -44,6 +44,7 @@ PalmIDNativeSDK.getInstance().initialize(this, entrypoint, partnerId, projectId)
 | partnerId | Yes | The partnerId of the PalmID SDK. |
 | projectId | Yes | The projectId of the PalmID SDK. |
 | accessToken | No | The accessToken of the PalmID SDK. If not provided, it will be automatically generated using partnerId and projectId. |
+| requiredEnrollmentScans | No | Required number of scans for enrollment |
 
 ## Result Error Codes
 

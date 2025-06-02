@@ -38,11 +38,12 @@ class MainActivity : ComponentActivity() {
     private var partnerId: String = ""  // Replace with your partnerId
     private var projectId: String = ""  // Replace with your projectId
     private var accessToken: String? = null  // Optional. If not provided, it will be automatically generated using partnerId and projectId.
+    private var requiredEnrollmentScans: Int = 1 // Optional. Required number of scans for enrollment. Default is 1.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        PalmIDNativeSDK.getInstance().initialize(this, entrypoint, partnerId, projectId, accessToken) { result ->
+        PalmIDNativeSDK.getInstance().initialize(this, entrypoint, partnerId, projectId, accessToken, requiredEnrollmentScans) { result ->
             Log.d(TAG, "palmid sdk init result: $result")
         }
 
