@@ -36,6 +36,15 @@ PalmIDNativeSDK.getInstance().initialize(this, entrypoint, partnerId, projectId)
 }
 ```
 
+4.1 Parameters
+
+| Parameter | Required | Description |
+|------------|-------------|-------------|
+| entrypoint | Yes | The entrypoint of the PalmID SDK. |
+| partnerId | Yes | The partnerId of the PalmID SDK. |
+| projectId | Yes | The projectId of the PalmID SDK. |
+| accessToken | No | The accessToken of the PalmID SDK. If not provided, it will be automatically generated using partnerId and projectId. |
+
 ## Result Error Codes
 
 | Description | Error Code |
