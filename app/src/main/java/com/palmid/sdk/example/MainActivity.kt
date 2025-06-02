@@ -37,11 +37,12 @@ class MainActivity : ComponentActivity() {
     private var entrypoint: String = "https://api-us-west.redrockbiometrics.com/saas/api/"
     private var partnerId: String = ""  // Replace with your partnerId
     private var projectId: String = ""  // Replace with your projectId
+    private var accessToken: String? = null  //
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        PalmIDNativeSDK.getInstance().initialize(this, entrypoint, partnerId, projectId) { result ->
+        PalmIDNativeSDK.getInstance().initialize(this, entrypoint, partnerId, projectId, accessToken) { result ->
             Log.d(TAG, "palmid sdk init result: $result")
         }
 
