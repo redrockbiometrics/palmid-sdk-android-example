@@ -37,18 +37,14 @@ implementation 'com.palmid:native_sdk:latest.version'
  *
  * @param ctx
  * @param entrypoint (Optional) Custom backend API endpoint URL. Pass null to use the default endpoint.
- * @param partnerId  (Required) Partner identifier for authentication. Must not be null.
  * @param projectId  (Required) Project identifier for service segregation. Must not be null.
- * @param accessToken (Optional) Access token for authentication. Pass null if not required.
  * @param requiredEnrollmentScans (Optional) Required number of scans for enrollment. Pass null if not required.
  * @param completion Callback with initialization result (success/failure).
  */
 public void initialize(
     @NonNull Context ctx,
     @androidx.annotation.Nullable String entrypoint,
-    @NonNull String partnerId,
     @NonNull String projectId,
-    @androidx.annotation.Nullable String accessToken,
     @androidx.annotation.Nullable Integer requiredEnrollmentScans,
     @NonNull PalmIDNativeSDKCompletion completion
 );

@@ -34,16 +34,14 @@ import androidx.core.content.ContextCompat
 private val TAG = "PalmIDSDKExample"
 
 class MainActivity : ComponentActivity() {
-    private var entrypoint: String = "https://api-us-west.redrockbiometrics.com/saas/api/"
-    private var partnerId: String = ""  // Replace with your partnerId
+    private var entrypoint: String = "https://api2.palmid.com/saas"
     private var projectId: String = ""  // Replace with your projectId
-    private var accessToken: String? = null  // Optional. If not provided, it will be automatically generated using partnerId and projectId.
     private var requiredEnrollmentScans: Int = 1 // Optional. Required number of scans for enrollment. Default is 1.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        PalmIDNativeSDK.getInstance().initialize(this, entrypoint, partnerId, projectId, accessToken, requiredEnrollmentScans) { result ->
+        PalmIDNativeSDK.getInstance().initialize(this, entrypoint, projectId, requiredEnrollmentScans) { result ->
             Log.d(TAG, "palmid sdk init result: $result")
         }
 
