@@ -36,18 +36,18 @@ implementation 'com.palmid:native_sdk:latest.version'
  * Initializes the PalmID SDK engine with required credentials and configuration.
  *
  * @param ctx
- * @param entrypoint (Optional) Custom backend API endpoint URL. Pass null to use the default endpoint.
+ * @param palmServerEntrypoint (Optional) Custom backend API endpoint URL. Pass null to use tdefault endpoint.
+ * @param appServerEntrypoint (Optional) Custom backend API endpoint URL. Pass null to use tdefault endpoint.
  * @param projectId  (Required) Project identifier for service segregation. Must not be null.
- * @param requiredEnrollmentScans (Optional) Required number of scans for enrollment. Pass null if not required.
+ * @param requiredEnrollmentScans (Optional) Required number of scans for enrollment. Pass nuif not required.
  * @param completion Callback with initialization result (success/failure).
  */
-public void initialize(
-    @NonNull Context ctx,
-    @androidx.annotation.Nullable String entrypoint,
-    @NonNull String projectId,
-    @androidx.annotation.Nullable Integer requiredEnrollmentScans,
-    @NonNull PalmIDNativeSDKCompletion completion
-);
+public void initialize(@NonNull Context ctx,
+                        @androidx.annotation.Nullable String palmServerEntrypoint,
+                        @androidx.annotation.Nullable String appServerEntrypoint,
+                        @NonNull String projectId,
+                        @androidx.annotation.Nullable Integer requiredEnrollmentScans,
+                        @NonNull PalmIDNativeSDKCompletion completion)
 
 /**
  * Verifies a user's palm print against a registered palm ID.
@@ -122,6 +122,8 @@ public class PalmIDNativeResultData {
     @NonNull
     private String palmId;
     private double score;
+    @Nullable
+    private String sessionId; // Only has value when appServerEntrypoint is specified during initialization
 }
 ```
 
