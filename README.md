@@ -25,7 +25,7 @@ maven {
 3. add the following to your `build.gradle` file:
 
 ```gradle
-implementation 'com.palmid:native_sdk:latest.version'
+implementation 'com.palmid:native_sdk:1.3.0'
 ```
 
 
