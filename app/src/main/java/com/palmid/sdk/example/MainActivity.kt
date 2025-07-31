@@ -107,6 +107,21 @@ fun MainScreen(
         Text(text = "PalmId: $palmId")
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
+            PalmIDNativeSDK.getInstance().enroll(activity, null) { result ->
+                if (result.errorCode == 100004) {
+                    showDialog("duplicate enrollment, palms are already registered")
+                } else {
+                    Log.d(TAG, "enroll result: $result")
+                    showDialog("enroll result: $result")
+                    val palmIdValue = result?.data?.palmId ?: ""
+                    setPalmId(palmIdValue)
+                }
+            }
+        }) {
+            Text("Enroll")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
             PalmIDNativeSDK.getInstance().identify(activity, null) { result ->
                 Log.d(TAG, "identify result: $result")
                 showDialog("identify result: $result")
@@ -118,29 +133,26 @@ fun MainScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            PalmIDNativeSDK.getInstance().enroll(activity, null) { result ->
-                Log.d(TAG, "enroll result: $result")
-                showDialog("enroll result: $result")
-                val palmIdValue = result?.data?.palmId ?: ""
-                setPalmId(palmIdValue)
-            }
-        }) {
-            Text("Enroll")
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = {
-            PalmIDNativeSDK.getInstance().verifyWithPalmId(activity, palmId, null) { result ->
-                Log.d(TAG, "verify result: $result")
-                showDialog("verify result: $result")
+            if (palmId == "") {
+                showDialog("verification requires an input palmId")
+            } else {
+                PalmIDNativeSDK.getInstance().verifyWithPalmId(activity, palmId, null) { result ->
+                    Log.d(TAG, "verify result: $result")
+                    showDialog("verify result: $result")
+                }
             }
         }) {
             Text("Verify")
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            PalmIDNativeSDK.getInstance().deleteUser(palmId) { result ->
-                Log.d(TAG, "deleteUser result: $result")
-                showDialog("deleteUser result: $result")
+            if (palmId == "") {
+                showDialog("deleteUser requires an input palmId")
+            } else {
+                PalmIDNativeSDK.getInstance().deleteUser(palmId) { result ->
+                    Log.d(TAG, "deleteUser result: $result")
+                    showDialog("deleteUser result: $result")
+                }
             }
         }) {
             Text("DeleteUser")
@@ -148,6 +160,8 @@ fun MainScreen(
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             PalmIDNativeSDK.getInstance().releaseEngine()
+            Log.d(TAG, "sdk released")
+            showDialog("sdk released")
         }) {
             Text("Release")
         }
