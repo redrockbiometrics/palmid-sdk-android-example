@@ -52,14 +52,14 @@ public void initialize(@NonNull Context ctx,
 /**
  * Verifies a user's palm print against a registered palm ID.
  *
- * @param palmId         Pre-registered palm identifier to verify against.
+ * @param userId         Pre-registered user identifier to verify against.
  * @param activity       Host activity for presenting verification UI.
  * @param loadController (Optional) Custom loading UI controller. Pass null for default UI.
  * @param result         Callback with verification result (success/failure and metadata).
  */
-public void verifyWithPalmId(
+public void verifyWithUserId(
     @NonNull android.app.Activity activity,
-    @NonNull String palmId,
+    @NonNull String userId,
     @androidx.annotation.Nullable Object loadController,
     @NonNull PalmIDNativeSDKResult result
 );
@@ -93,11 +93,11 @@ public void enroll(
 /**
  * Removes a registered user from the palm recognition system.
  *
- * @param palmId Unique identifier of the user to be removed.
+ * @param userId Unique identifier of the user to be removed.
  * @param result Callback with deletion result (success/failure status).
  */
 public void deleteUser(
-    @NonNull String palmId,
+    @NonNull String userId,
     @NonNull PalmIDNativeSDKResult result
 );
 
@@ -114,13 +114,15 @@ public void releaseEngine();
 ```java
 public class PalmIDNativeResult {
     private int errorCode;
+    @NonNull
+    private String errorMsg;
     @Nullable
     private PalmIDNativeResultData data;
 }
 
 public class PalmIDNativeResultData {
     @NonNull
-    private String palmId;
+    private String userId;
     private double score;
     @Nullable
     private String sessionId; // Only has value when appServerEntrypoint is specified during initialization
