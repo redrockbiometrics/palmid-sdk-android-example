@@ -38,7 +38,7 @@ private val TAG = "PalmIDSDKExample"
 
 class MainActivity : ComponentActivity() {
     private var palmServerEntrypoint: String = "https://api2.palmid.com/saas"
-    private var appServerEntrypoint: String = "https://api2.palmid.com/saas"
+    private var appServerEntrypoint: String = "https://app.palmid.com/"
     private var projectId: String = ""  // Replace with your projectId
     private var requiredEnrollmentScans: Int = 1 // Optional. Required number of scans for enrollment. Default is 1.
 
@@ -58,14 +58,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             PalmIDSDKExampleTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    var palmId by remember { mutableStateOf("") }
+                    var userId by remember { mutableStateOf("") }
                     var showDialog by remember { mutableStateOf(false) }
                     var dialogMessage by remember { mutableStateOf("") }
                     
                     MainScreen(
                         activity = this@MainActivity,
-                        palmId = palmId,
-                        setPalmId = { palmId = it },
+                        userId = userId,
+                        setUserId = { userId = it },
                         showDialog = { message ->
                             dialogMessage = message
                             showDialog = true
@@ -94,8 +94,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(
     activity: Activity,
-    palmId: String,
-    setPalmId: (String) -> Unit,
+    userId: String,
+    setUserId: (String) -> Unit,
     showDialog: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -104,7 +104,7 @@ fun MainScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "PalmId: $palmId")
+        Text(text = "UserId: $userId")
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             PalmIDNativeSDK.getInstance().enroll(activity, null) { result ->
@@ -113,8 +113,8 @@ fun MainScreen(
                 } else {
                     Log.d(TAG, "enroll result: $result")
                     showDialog("enroll result: $result")
-                    val palmIdValue = result?.data?.palmId ?: ""
-                    setPalmId(palmIdValue)
+                    val userIdValue = result?.data?.userId ?: ""
+                    setUserId(userIdValue)
                 }
             }
         }) {
@@ -125,18 +125,18 @@ fun MainScreen(
             PalmIDNativeSDK.getInstance().identify(activity, null) { result ->
                 Log.d(TAG, "identify result: $result")
                 showDialog("identify result: $result")
-                val palmIdValue = result?.data?.palmId ?: ""
-                setPalmId(palmIdValue)
+                val userIdValue = result?.data?.userId ?: ""
+                setUserId(userIdValue)
             }
         }) {
             Text("Identify")
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            if (palmId == "") {
-                showDialog("verification requires an input palmId")
+            if (userId == "") {
+                showDialog("verification requires an input userId")
             } else {
-                PalmIDNativeSDK.getInstance().verifyWithPalmId(activity, palmId, null) { result ->
+                PalmIDNativeSDK.getInstance().verifyWithUserId(activity, userId, null) { result ->
                     Log.d(TAG, "verify result: $result")
                     showDialog("verify result: $result")
                 }
@@ -146,10 +146,10 @@ fun MainScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            if (palmId == "") {
-                showDialog("deleteUser requires an input palmId")
+            if (userId == "") {
+                showDialog("deleteUser requires an input userId")
             } else {
-                PalmIDNativeSDK.getInstance().deleteUser(palmId) { result ->
+                PalmIDNativeSDK.getInstance().deleteUser(userId) { result ->
                     Log.d(TAG, "deleteUser result: $result")
                     showDialog("deleteUser result: $result")
                 }
