@@ -111,11 +111,15 @@ fun MainScreen(
                 val userIdValue = result?.data?.userId ?: ""
                 setUserId(userIdValue)
 
-                if (result.errorCode == 100004) {
-                    showDialog("duplicate enrollment, palms are already registered")
+                if (result.errorCode == 100000) {
+                    Log.d(TAG, "enroll succeed. userId = $userIdValue")
+                    showDialog("enroll succeed. userId = $userIdValue")
+                } else if (result.errorCode == 100004) {
+                    Log.d(TAG, "duplicate enrollment, palms are already registered. userId = $userIdValue")
+                    showDialog("duplicate enrollment, palms are already registered. userId = $userIdValue")
                 } else {
-                    Log.d(TAG, "enroll result: $result")
-                    showDialog("enroll result: $result")
+                    Log.d(TAG, "enroll fail. errorCode = ${result.errorCode}")
+                    showDialog("enroll fail. errorCode = ${result.errorCode}")
                 }
             }
         }) {
@@ -127,8 +131,13 @@ fun MainScreen(
                 showDialog("verification requires an input userId")
             } else {
                 PalmIDNativeSDK.getInstance().verifyWithUserId(activity, userId, null) { result ->
-                    Log.d(TAG, "verify result: $result")
-                    showDialog("verify result: $result")
+                    if (result.errorCode == 100000) { //success
+                        Log.d(TAG, "verify succeed. score = ${result.data?.score}")
+                        showDialog("verify succeed. score = ${result.data?.score}")
+                    } else { //fail
+                        Log.d(TAG, "verify fail. errorCode = ${result.errorCode}")
+                        showDialog("verify fail. errorCode = ${result.errorCode}")
+                    }
                 }
             }
         }) {
@@ -140,9 +149,14 @@ fun MainScreen(
                 showDialog("deleteUser requires an input userId")
             } else {
                 PalmIDNativeSDK.getInstance().deleteUser(userId) { result ->
-                    Log.d(TAG, "deleteUser result: $result")
-                    setUserId("")
-                    showDialog("deleteUser result: $result")
+                    if (result.errorCode == 100000) { //success
+                        setUserId("")
+                        Log.d(TAG, "deleteUser succeed.")
+                        showDialog("deleteUser succeed.")
+                    } else { //fail
+                        Log.d(TAG, "deleteUser fail. errorCode = ${result.errorCode}")
+                        showDialog("deleteUser fail. errorCode = ${result.errorCode}")
+                    }
                 }
             }
         }) {
