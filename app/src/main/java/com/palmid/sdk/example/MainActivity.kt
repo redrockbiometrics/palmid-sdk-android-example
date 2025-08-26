@@ -166,6 +166,7 @@ fun MainScreen(
         Button(onClick = {
             PalmIDNativeSDK.getInstance().releaseEngine()
             Log.d(TAG, "sdk released")
+            setUserId("")
             showDialog("sdk released")
         }) {
             Text("Release")
