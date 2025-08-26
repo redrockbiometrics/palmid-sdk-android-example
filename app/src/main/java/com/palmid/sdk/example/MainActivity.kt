@@ -141,6 +141,7 @@ fun MainScreen(
             } else {
                 PalmIDNativeSDK.getInstance().deleteUser(userId) { result ->
                     Log.d(TAG, "deleteUser result: $result")
+                    setUserId("")
                     showDialog("deleteUser result: $result")
                 }
             }
@@ -151,6 +152,7 @@ fun MainScreen(
         Button(onClick = {
             PalmIDNativeSDK.getInstance().releaseEngine()
             Log.d(TAG, "sdk released")
+            setUserId("")
             showDialog("sdk released")
         }) {
             Text("Release")
