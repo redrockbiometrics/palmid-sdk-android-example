@@ -108,28 +108,18 @@ fun MainScreen(
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             PalmIDNativeSDK.getInstance().enroll(activity, null) { result ->
+                val userIdValue = result?.data?.userId ?: ""
+                setUserId(userIdValue)
+
                 if (result.errorCode == 100004) {
                     showDialog("duplicate enrollment, palms are already registered")
                 } else {
                     Log.d(TAG, "enroll result: $result")
                     showDialog("enroll result: $result")
-                    val userIdValue = result?.data?.userId ?: ""
-                    setUserId(userIdValue)
                 }
             }
         }) {
             Text("Enroll")
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = {
-            PalmIDNativeSDK.getInstance().identify(activity, null) { result ->
-                Log.d(TAG, "identify result: $result")
-                showDialog("identify result: $result")
-                val userIdValue = result?.data?.userId ?: ""
-                setUserId(userIdValue)
-            }
-        }) {
-            Text("Identify")
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
