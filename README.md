@@ -50,45 +50,58 @@ public void initialize(@NonNull Context ctx,
                         @NonNull PalmIDNativeSDKCompletion completion)
 
 /**
- * Verifies a user's palm print against a registered palm ID.
+ * Verifies a user's palm print.
+ *
+ * @param activity       Host activity for presenting verification UI.
+ * @param loadController (Optional) Custom loading UI controller. Pass null for default UI.
+ * @param appServerMessage (Optional) Custom message to be sent to app server. Pass null if not required.
+ * @param result         Callback with verification result (success/failure and metadata).
+ */
+public void verifyWithNavigationController(@NonNull android.app.Activity activity,
+                                @androidx.annotation.Nullable Object loadController,
+                                @androidx.annotation.Nullable String appServerMessage,
+                                @NonNull PalmIDNativeSDKResult result);
+
+/**
+ * Verifies a user's palm print against a registered user ID.
  *
  * @param userId         Pre-registered user identifier to verify against.
  * @param activity       Host activity for presenting verification UI.
  * @param loadController (Optional) Custom loading UI controller. Pass null for default UI.
+ * @param appServerMessage (Optional) Custom message to be sent to app server. Pass null if not required.
  * @param result         Callback with verification result (success/failure and metadata).
  */
-public void verifyWithUserId(
-    @NonNull android.app.Activity activity,
-    @NonNull String userId,
-    @androidx.annotation.Nullable Object loadController,
-    @NonNull PalmIDNativeSDKResult result
-);
+public void verifyWithUserId(@NonNull android.app.Activity activity,
+                                @NonNull String userId,
+                                @androidx.annotation.Nullable Object loadController,
+                                @androidx.annotation.Nullable String appServerMessage,
+                                @NonNull PalmIDNativeSDKResult result);
 
 /**
  * Identifies a user by capturing and matching their palm print.
  *
  * @param activity       Host activity for presenting capture UI.
  * @param loadController (Optional) Custom loading UI controller. Pass null for default UI.
+ * @param appServerMessage (Optional) Custom message to be sent to app server. Pass null if not required.
  * @param result         Callback with identification result (matched palm ID or error).
  */
-public void identify(
-    @NonNull android.app.Activity activity,
-    @androidx.annotation.Nullable Object loadController,
-    @NonNull PalmIDNativeSDKResult result
-);
+public void identify(@NonNull android.app.Activity activity,
+                        @androidx.annotation.Nullable Object loadController,
+                        @androidx.annotation.Nullable String appServerMessage,
+                        @NonNull PalmIDNativeSDKResult result);
 
 /**
  * Enrolls a new user by capturing and registering their palm print.
  *
  * @param activity       Host activity for presenting enrollment UI.
  * @param loadController (Optional) Custom loading UI controller. Pass null for default UI.
+ * @param appServerMessage (Optional) Custom message to be sent to app server. Pass null if not required.
  * @param result         Callback with enrollment result (success/failure status).
  */
-public void enroll(
-    @NonNull android.app.Activity activity,
-    @androidx.annotation.Nullable Object loadController,
-    @NonNull PalmIDNativeSDKResult result
-);
+public void enroll(@NonNull android.app.Activity activity,
+                    @androidx.annotation.Nullable Object loadController,
+                    @androidx.annotation.Nullable String appServerMessage,
+                    @NonNull PalmIDNativeSDKResult result);
 
 /**
  * Removes a registered user from the palm recognition system.
