@@ -38,7 +38,7 @@ private val TAG = "PalmIDSDKExample"
 
 class MainActivity : ComponentActivity() {
     private var palmServerEntrypoint: String = "https://api2.palmid.com/saas"
-    private var appServerEntrypoint: String = "https://app.palmid.com/"
+    private var appServerEntrypoint: String = ""
     private var projectId: String = ""  // Replace with your projectId
     private var requiredEnrollmentScans: Int = 2 // Optional. Required number of scans for enrollment. Default is 1.
 
@@ -107,7 +107,7 @@ fun MainScreen(
         Text(text = "UserId: $userId")
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            PalmIDNativeSDK.getInstance().enroll(activity, null) { result ->
+            PalmIDNativeSDK.getInstance().enroll(activity, null, null) { result ->
                 val userIdValue = result?.data?.userId ?: ""
                 setUserId(userIdValue)
 
@@ -127,10 +127,27 @@ fun MainScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
+            PalmIDNativeSDK.getInstance().identify(activity, null, null) { result ->
+                val userIdValue = result?.data?.userId ?: ""
+                setUserId(userIdValue)
+
+                if (result.errorCode == 100000) {
+                    Log.d(TAG, "Identify succeed. userId = $userIdValue")
+                    showDialog("Identify succeed. userId = $userIdValue")
+                } else {
+                    Log.d(TAG, "Identify fail. errorCode = ${result.errorCode}")
+                    showDialog("Identify fail. errorCode = ${result.errorCode}")
+                }
+            }
+        }) {
+            Text("Identify")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
             if (userId == "") {
                 showDialog("verification requires an input userId")
             } else {
-                PalmIDNativeSDK.getInstance().verifyWithUserId(activity, userId, null) { result ->
+                PalmIDNativeSDK.getInstance().verifyWithUserId(activity, userId, null, null) { result ->
                     if (result.errorCode == 100000) { //success
                         Log.d(TAG, "verify succeed. score = ${result.data?.score}")
                         showDialog("verify succeed. score = ${result.data?.score}")
