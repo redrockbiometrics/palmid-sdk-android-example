@@ -127,23 +127,6 @@ fun MainScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            PalmIDNativeSDK.getInstance().identify(activity, null, null) { result ->
-                val userIdValue = result?.data?.userId ?: ""
-                setUserId(userIdValue)
-
-                if (result.errorCode == 100000) {
-                    Log.d(TAG, "Identify succeed. userId = $userIdValue")
-                    showDialog("Identify succeed. userId = $userIdValue")
-                } else {
-                    Log.d(TAG, "Identify fail. errorCode = ${result.errorCode}")
-                    showDialog("Identify fail. errorCode = ${result.errorCode}")
-                }
-            }
-        }) {
-            Text("Identify")
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = {
             if (userId == "") {
                 showDialog("verification requires an input userId")
             } else {
