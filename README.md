@@ -84,7 +84,9 @@ public void verifyWithUserId(@NonNull android.app.Activity activity,
  * @param loadController (Optional) Custom loading UI controller. Pass null for default UI.
  * @param appServerMessage (Optional) Custom message to be sent to app server. Pass null if not required.
  * @param result         Callback with identification result (matched palm ID or error).
+ * @deprecated This method is deprecated. Please use an alternative method.
  */
+@Deprecated
 public void identify(@NonNull android.app.Activity activity,
                         @androidx.annotation.Nullable Object loadController,
                         @androidx.annotation.Nullable String appServerMessage,
