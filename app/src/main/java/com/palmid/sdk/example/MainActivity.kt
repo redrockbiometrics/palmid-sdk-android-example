@@ -45,11 +45,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        PalmIDNativeSDK.getInstance().initialize(this, palmServerEntrypoint, appServerEntrypoint, projectId, requiredEnrollmentScans) { result ->
-            Log.d(TAG, "palmid sdk init result: $result")
-            Toast.makeText(this, "Initialize result: $result", Toast.LENGTH_LONG).show()
-        }
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 1)
         }
@@ -64,6 +59,10 @@ class MainActivity : ComponentActivity() {
                     
                     MainScreen(
                         activity = this@MainActivity,
+                        palmServerEntrypoint = palmServerEntrypoint,
+                        appServerEntrypoint = appServerEntrypoint,
+                        projectId = projectId,
+                        requiredEnrollmentScans = requiredEnrollmentScans,
                         userId = userId,
                         setUserId = { userId = it },
                         showDialog = { message ->
@@ -94,19 +93,44 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(
     activity: Activity,
+    palmServerEntrypoint: String,
+    appServerEntrypoint: String,
+    projectId: String,
+    requiredEnrollmentScans: Int,
     userId: String,
     setUserId: (String) -> Unit,
     showDialog: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isInitialized by remember { mutableStateOf(false) }
+    
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Button(onClick = {
+            PalmIDNativeSDK.getInstance().initialize(activity, palmServerEntrypoint, appServerEntrypoint, projectId, requiredEnrollmentScans) { result ->
+                Log.d(TAG, "palmid sdk init result: $result")
+                if (result) {
+                    isInitialized = true
+                    showDialog("Initialize result: $result")
+                } else {
+                    isInitialized = false
+                    showDialog("Initialize result: $result")
+                }
+            }
+        }) {
+            Text("Initialize")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
         Text(text = "UserId: $userId")
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
+            if (!isInitialized) {
+                Toast.makeText(activity, "Please initialize SDK first", Toast.LENGTH_SHORT).show()
+                return@Button
+            }
             PalmIDNativeSDK.getInstance().enroll(activity, null, null) { result ->
                 val userIdValue = result?.data?.userId ?: ""
                 setUserId(userIdValue)
@@ -127,6 +151,10 @@ fun MainScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
+            if (!isInitialized) {
+                Toast.makeText(activity, "Please initialize SDK first", Toast.LENGTH_SHORT).show()
+                return@Button
+            }
             if (userId == "") {
                 showDialog("verification requires an input userId")
             } else {
@@ -145,6 +173,10 @@ fun MainScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
+            if (!isInitialized) {
+                Toast.makeText(activity, "Please initialize SDK first", Toast.LENGTH_SHORT).show()
+                return@Button
+            }
             if (userId == "") {
                 showDialog("deleteUser requires an input userId")
             } else {
@@ -166,6 +198,7 @@ fun MainScreen(
         Button(onClick = {
             PalmIDNativeSDK.getInstance().releaseEngine()
             Log.d(TAG, "sdk released")
+            isInitialized = false
             setUserId("")
             showDialog("sdk released")
         }) {
