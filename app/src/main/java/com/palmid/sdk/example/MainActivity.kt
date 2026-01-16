@@ -37,9 +37,9 @@ import com.palmid.sdk.example.ui.theme.PalmIDSDKExampleTheme
 private val TAG = "PalmIDSDKExample"
 
 class MainActivity : ComponentActivity() {
-    private var palmServerEntrypoint: String = ""
+    private var palmServerEntrypoint: String = "https://api2.palmid.com/saas"
     private var appServerEntrypoint: String = ""
-    private var projectId: String = ""  // Replace with your projectId
+    private var projectId: String = "6743918c6b44a78fd402bb43"  // Replace with your projectId
     private var requiredEnrollmentScans: Int = 2 // Optional. Required number of scans for enrollment. Default is 1.
 
     override fun onCreate(savedInstanceState: Bundle?) {
