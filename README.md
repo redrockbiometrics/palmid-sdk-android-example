@@ -25,7 +25,7 @@ maven {
 3. add the following to your `build.gradle` file:
 
 ```gradle
-implementation 'com.palmid:native_sdk:1.6.0-pearson-offline'
+implementation 'com.palmid:native_sdk:1.8.0'
 ```
 
 
